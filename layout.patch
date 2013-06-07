@@ -1,0 +1,32 @@
+diff -rupN orig/panel-plugin/xkb-config.c xfce4-xkb-plugin-0.5.5/panel-plugin/xkb-config.c
+--- orig/panel-plugin/xkb-config.c	2013-05-14 02:45:57.000000000 +0400
++++ xfce4-xkb-plugin-0.5.5/panel-plugin/xkb-config.c	2013-06-06 12:46:12.022154998 +0400
+@@ -304,10 +304,28 @@ xkb_config_update_settings (t_xkb_settin
+     gchar **opt;
+     gchar **prefix;
+     int i;
++    t_xkb_settings *old;
+ 
+     g_assert (config != NULL);
+     g_assert (settings != NULL);
+ 
++    old = config->settings;
++
++    if (old && old->kbd_config && settings->kbd_config)
++    {
++        if (old->group_policy == settings->group_policy &&
++            old->default_group == settings->default_group &&
++            old->never_modify_config == settings->never_modify_config &&
++            g_strcmp0(old->kbd_config->model, settings->kbd_config->model) == 0 &&
++            g_strcmp0(old->kbd_config->layouts, settings->kbd_config->layouts) == 0 &&
++            g_strcmp0(old->kbd_config->variants, settings->kbd_config->variants) == 0 &&
++            g_strcmp0(old->kbd_config->toggle_option, settings->kbd_config->toggle_option) == 0 &&
++            g_strcmp0(old->kbd_config->compose_key_position, settings->kbd_config->compose_key_position) == 0)
++        {
++            return TRUE;
++        }
++    }
++
+     config->settings = settings;
+ 
+     if (config->config_rec == NULL)

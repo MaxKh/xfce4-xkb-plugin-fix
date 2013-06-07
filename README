@@ -1,0 +1,6 @@
+This fix for xfce4-xkb-plugin 0.5.5.
+
+The patch fixes
+Bug 7692 - the current layout per window are forgotten every couple of minutes
+
+https://bugzilla.xfce.org/show_bug.cgi?id=7692
